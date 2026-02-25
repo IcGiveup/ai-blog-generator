@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-console.log("KEY FROM ENV:", process.env.GEMINI_API_KEY);
+console.log("Testing Gemini call...");
 
 export const generateBlog = async (req, res) => {
   try {
@@ -21,7 +21,7 @@ export const generateBlog = async (req, res) => {
     `;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
     });
 
