@@ -5,60 +5,31 @@ export const generateBlog = async (req, res) => {
     const { topic, tone } = req.body;
 
     if (!topic) {
-      return res.status(400).json({
-        success: false,
-        error: "Topic is required",
-      });
+      return res.status(400).json({ error: "Topic is required" });
     }
 
-    const ai = new GoogleGenAI({
+    const genAI = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    const outlineResponse = await ai.models.generateContent({
+    const prompt = `
+    Write a detailed blog about "${topic}".
+    Tone: ${tone || "professional"}.
+    Use proper headings and markdown formatting.
+    `;
+
+    const response = await genAI.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `
-        Create a structured blog outline about: ${topic}
-
-        Include:
-        - Introduction
-        - 4-6 section headings
-        - Conclusion
-
-        Return only bullet points.
-      `,
+      contents: prompt,
     });
-
-    const outline = outlineResponse.text;
-
-    const expandedResponse = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `
-        Expand the following outline into a complete blog article.
-
-        Tone: ${tone}
-
-        Outline:
-        ${outline}
-
-        Write in clear markdown format.
-      `,
-    });
-
-    const finalBlog = expandedResponse.text;
 
     res.status(200).json({
       success: true,
-      content: finalBlog,
-      outline: outline,
+      content: response.text,
     });
 
   } catch (error) {
     console.error("FULL ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      error: "AI generation failed",
-    });
+    res.status(500).json({ error: "AI generation failed" });
   }
 };
