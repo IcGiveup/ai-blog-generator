@@ -1,5 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
+console.log("KEY FROM ENV:", process.env.GEMINI_API_KEY);
+
 export const generateBlog = async (req, res) => {
   try {
     const { topic, tone } = req.body;
