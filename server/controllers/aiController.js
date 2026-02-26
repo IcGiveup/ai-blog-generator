@@ -1,14 +1,16 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 export const generateBlog = async (req, res) => {
   try {
     const { topic, tone } = req.body;
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
-    });
+    if (!topic) {
+      return res.status(400).json({ error: "Topic is required" });
+    }
 
     const prompt = `
 Write a detailed blog about "${topic}".
@@ -16,10 +18,20 @@ Tone: ${tone || "professional"}.
 Use proper headings and markdown formatting.
 `;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",   // fast & cheap
+      messages: [
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.7,
+    });
 
-    res.json({ success: true, content: text });
+    const text = response.choices[0].message.content;
+
+    res.json({
+      success: true,
+      content: text,
+    });
 
   } catch (error) {
     console.error("FULL ERROR:", error);
