@@ -21,7 +21,7 @@ export const generateBlog = async (req, res) => {
     `;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-1.0-pro",
       contents: prompt,
     });
 
