@@ -21,7 +21,7 @@ export const generateBlog = async (req, res) => {
     `;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-1.5-flash-latest",
       contents: prompt,
     });
 
@@ -29,7 +29,6 @@ export const generateBlog = async (req, res) => {
       success: true,
       content: response.text,
     });
-
   } catch (error) {
     console.error("FULL ERROR:", error);
     res.status(500).json({ error: "AI generation failed" });
