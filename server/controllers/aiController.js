@@ -1,9 +1,5 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const generateBlog = async (req, res) => {
   try {
     const { topic, tone } = req.body;
@@ -12,6 +8,15 @@ export const generateBlog = async (req, res) => {
       return res.status(400).json({ error: "Topic is required" });
     }
 
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({ error: "OPENAI_API_KEY not set" });
+    }
+
+    // Initialize inside function (IMPORTANT)
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const prompt = `
 Write a detailed blog about "${topic}".
 Tone: ${tone || "professional"}.
@@ -19,10 +24,8 @@ Use proper headings and markdown formatting.
 `;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",   // fast & cheap
-      messages: [
-        { role: "user", content: prompt }
-      ],
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
     });
 
