@@ -45,34 +45,36 @@ const downloadPDF = async () => {
   pdf.save(`${topic || "ai-blog"}.pdf`);
 };
 
-  const generateBlog = async () => {
-    if (!topic.trim()) return;
+const generateBlog = async () => {
+  if (!topic.trim()) return;
 
-    setLoading(true);
-    setError("");
-    setBlog("");
-    setCopied(false);
+  setLoading(true);
+  setError("");
+  setBlog("");
+  setCopied(false);
 
-    try {
-      const response = await fetch("https://ai-blog-generator-5suo.onrender.com/api/ai/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, tone }),
-      });
+  try {
+    const API_URL = import.meta.env.VITE_API_URL;
 
-      const data = await response.json();
+    const response = await fetch(`${API_URL}/api/ai/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ topic, tone }),
+    });
 
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
+    const data = await response.json();
 
-      setBlog(data.content);
-    } catch (err) {
-      setError(err.message);
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong");
     }
 
-    setLoading(false);
-  };
+    setBlog(data.content);
+  } catch (err) {
+    setError(err.message);
+  }
+
+  setLoading(false);
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200 flex items-center justify-center p-6">

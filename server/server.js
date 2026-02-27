@@ -8,7 +8,12 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "*",
+  origin: [
+    "http://localhost:5173",
+    "https://ai-blog-generator-raul1avlvg-fiyazahmd002-5785s-projects.vercel.app"
+  ],
+  methods: ["GET", "POST"],
+  credentials: true
 }));
 app.use(express.json());
 
