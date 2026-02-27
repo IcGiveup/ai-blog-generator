@@ -4,40 +4,29 @@ export const generateBlog = async (req, res) => {
   try {
     const { topic, tone } = req.body;
 
-    if (!topic) {
-      return res.status(400).json({ error: "Topic is required" });
-    }
-
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: "OPENAI_API_KEY not set" });
-    }
-
-    // Initialize inside function (IMPORTANT)
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+    const client = new OpenAI({
+      apiKey: process.env.GROQ_API_KEY,
+      baseURL: "https://api.groq.com/openai/v1",
     });
 
-    const prompt = `
-Write a detailed blog about "${topic}".
-Tone: ${tone || "professional"}.
-Use proper headings and markdown formatting.
-`;
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
+    const completion = await client.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: [
+        {
+          role: "user",
+          content: `Write a detailed blog about "${topic}" in a ${tone} tone.`,
+        },
+      ],
       temperature: 0.7,
     });
 
-    const text = response.choices[0].message.content;
-
     res.json({
       success: true,
-      content: text,
+      content: completion.choices[0].message.content,
     });
 
   } catch (error) {
-    console.error("FULL ERROR:", error);
+    console.error(error);
     res.status(500).json({ error: "AI generation failed" });
   }
 };

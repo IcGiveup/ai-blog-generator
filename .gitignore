@@ -1,2 +1,18 @@
+# Environment files
 .env
 server/.env
+client/.env
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend build
+client/dist/
+client/build/
