@@ -54,7 +54,7 @@ const downloadPDF = async () => {
     setCopied(false);
 
     try {
-      const response = await fetch("http://localhost:5000/api/ai/generate", {
+      const response = await fetch("https://ai-blog-generator-5suo.onrender.com/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, tone }),
