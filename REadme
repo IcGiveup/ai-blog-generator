@@ -1,0 +1,178 @@
+# 🧠 AI Blog Generator
+
+A full-stack AI-powered blog generation web application built using React (Vite) and Node.js (Express).  
+The application generates structured blog posts based on a given topic and tone using an AI API.
+
+🔗 **Live Demo:**  
+Frontend: https://ai-blog-generator-three-rho.vercel.app  
+Backend API: https://ai-blog-generator-5suo.onrender.com
+
+---
+
+## 🚀 Features
+
+- ✍️ Generate blogs using AI
+- 🎯 Select tone (Professional, Casual, SEO Optimized, Technical)
+- 📋 Copy generated blog to clipboard
+- 📄 Download blog as PDF
+- 📝 Markdown rendering
+- ⚡ Loading animation
+- 🌍 Fully deployed (Frontend + Backend)
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+- React (Vite)
+- Tailwind CSS
+- React Markdown
+- jsPDF
+- html2canvas
+
+### Backend
+- Node.js
+- Express.js
+- CORS
+- dotenv
+
+### Deployment
+- Frontend: Vercel
+- Backend: Render
+
+---
+
+## 📂 Project Structure
+
+```
+AI-BLOG-GENERATOR
+│
+├── client/        # Frontend (React + Vite)
+├── server/        # Backend (Express API)
+└── README.md
+```
+
+---
+
+## ⚙️ Environment Variables
+
+### Backend (.env inside server folder)
+
+```
+GEMINI_API_KEY=your_api_key_here
+```
+
+### Frontend (.env inside client folder)
+
+```
+VITE_API_URL=https://your-backend-url.onrender.com
+```
+
+⚠️ Never commit `.env` files. They are ignored using `.gitignore`.
+
+---
+
+## 🛠️ Installation (Local Development)
+
+### 1️⃣ Clone Repository
+
+```
+git clone https://github.com/your-username/ai-blog-generator.git
+cd ai-blog-generator
+```
+
+---
+
+### 2️⃣ Setup Backend
+
+```
+cd server
+npm install
+npm start
+```
+
+Server runs on:
+```
+http://localhost:5000
+```
+
+---
+
+### 3️⃣ Setup Frontend
+
+```
+cd client
+npm install
+npm run dev
+```
+
+Frontend runs on:
+```
+http://localhost:5173
+```
+
+---
+
+## 📡 API Endpoint
+
+### Generate Blog
+
+**POST** `/api/ai/generate`
+
+Request Body:
+```json
+{
+  "topic": "Artificial Intelligence",
+  "tone": "professional"
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "content": "Generated blog content..."
+}
+```
+
+---
+
+## 🔐 Deployment Architecture
+
+```
+Vercel (Frontend)
+        ↓
+Render (Backend)
+        ↓
+AI API Provider
+```
+
+---
+
+## 🎯 Why This Project?
+
+This project demonstrates:
+
+- Full-stack application development
+- REST API integration
+- Environment variable management
+- CORS handling
+- Production deployment
+- Clean UI & user experience
+
+---
+
+## 📌 Future Improvements
+
+- Add blog history saving
+- Add authentication
+- Add dark mode
+- Add rate limiting
+- Add analytics dashboard
+
+---
+
+## 👨‍💻 Author
+
+Fiyaz Ahmed  
+Full Stack Developer  
